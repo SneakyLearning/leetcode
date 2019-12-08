@@ -98,10 +98,35 @@ class MyCircularQueue(object):
                 return False
         return True
 
-obj = MyCircularQueue(6)
-obj.enQueue(6)
-print(obj.isEmpty())
-print(obj.head,obj.tail)
-obj.deQueue()
-print(obj.head,obj.tail)
-print(obj.queue)
+class MovingAverage(object):
+
+    def __init__(self, size):
+        """
+        Initialize your data structure here.
+        :type size: int
+        """
+        self.size = size
+        self.queue = [None] * self.size
+        self.tail = -1
+
+    def next(self, val):
+        self.tail = (self.tail + 1) % self.size
+        self.queue[self.tail] = val
+        sum = 0
+        float(sum)
+        cut = 0
+        for i in self.queue:
+            if i != None:
+                cut += 1
+                sum += i
+        return sum/cut
+
+
+class WallAndDoor(object):
+    def way(self,rooms):
+        m = len(room)
+        n = len(room[0])
+        for mi in range(0,m):
+            for ni in range(0,n):
+                step = 0
+                if a[mi][ni] == 0:
