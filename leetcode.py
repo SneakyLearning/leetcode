@@ -187,6 +187,8 @@ class MinStack(object):
 class Island(object):
     def numIslands(self,grid):
         from collections import deque
+        if not grid or not grid[0]:
+            return 0
         m,n = len(grid),len(grid[0])
         dx = [1,-1,0,0]
         dy = [0,0,-1,1]
@@ -202,19 +204,19 @@ class Island(object):
                 for k in range(4):
                     x = i+dx[k]
                     y = j+dy[k]
-                    if 0<=x<m and 0<=y<n and (x,y) not in visted and grid[x][y] == 1:
+                    if 0<=x<m and 0<=y<n and (x,y) not in visted and grid[x][y] == '1':
                         grid[x][y] = 0
                         q.append((x,y))
-                        visted.add(x,y)
+                        visted.add((x,y))
 
         result = 0
         for i in range(m):
             for j in range(n):
-                if grid[i][j] == 1:
+                if grid[i][j] == '1':
                     flood(i,j)
                     result += 1
         return result
 
 s = Island()
-grid = [[0,1,0]]
-s.numIslands(grid)
+grid = [['0','1','0'],['0','1','0']]
+print(s.numIslands(grid))
