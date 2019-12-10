@@ -119,49 +119,39 @@ class MovingAverage(object):
                 sum += i
         return sum/cut
 
-class WallAndDoor(object):#墙与门
+class WallAndGate(object):
     def wallsAndGates(self, rooms):
         """
         :type rooms: List[List[int]]
         :rtype: None Do not return anything, modify rooms in-place instead.
         """
         from collections import deque
+        if not rooms or not rooms[0]:
+            return rooms
         m, n = len(rooms), len(rooms[0])
         dx = [1, -1, 0, 0]
         dy = [0, 0, 1, -1]
-        INF = pow(2,31)-1
+        INF = 2147483647
+        queue = deque()
 
-        def bfs(x0, y0):
-            q = deque()
-            step = 0
-            q.append(([x0,y0],step))
-            visited = set()
-            visited.add((x0,y0))
-            while q:
-                pos,step = q.popleft()
+        def bfs(queue):
+            while queue:
+                pos = queue.popleft()
                 x0, y0 = pos
+                x0, y0, rooms[x0][y0]
                 for k in range(4):
-                    x = x0+dx[k]
-                    y = y0+dy[k]
-                    if 0 <= x < m and 0 <= y < m and (x,y) not in visited and rooms[x][y] == 0:
-                        return step+1
-                    if 0 <= x < m and 0 <= y < m and (x,y) not in visited and rooms[x][y] != INF:
-                        q.append(([x,y],step+1))
-                    visited.add((x,y))
-            return INF
+                    x = x0 + dx[k]
+                    y = y0 + dy[k]
+                    if 0 <= x < m and 0 <= y < n and rooms[x][y] == INF:
+                        rooms[x][y] = rooms[x0][y0] + 1
+                        queue.append((x, y))
 
         for i in range(m):
             for j in range(n):
-                if rooms[i][j] == INF:
-                    rooms[i][j] = bfs(i, j)
+                if rooms[i][j] == 0:  # 现在从每扇门出发
+                    queue.append((i, j))
+        bfs(queue)
         return rooms
-"""
-INF = pow(2,31)-1
-rooms = [INF,-1,0,INF],[INF,INF,INF,-1],[INF,-1,INF,-1],[0,-1,INF,INF]
-sol = WallAndDoor()
-print(sol.wallsAndGates(rooms))
-"""
-
 
 class MinStack(object):
 
@@ -194,4 +184,37 @@ class MinStack(object):
         """
         return min(self.a)
 
+class Island(object):
+    def numIslands(self,grid):
+        from collections import deque
+        m,n = len(grid),len(grid[0])
+        dx = [1,-1,0,0]
+        dy = [0,0,-1,1]
+        visted = set()
+        def flood(i,j):
+            q = deque()
+            grid[i][j] = 0
+            q.append((i,j))
+            visted.add((i,j))
+            while q:
+                pos = q.popleft()
+                i,j = pos
+                for k in range(4):
+                    x = i+dx[k]
+                    y = j+dy[k]
+                    if 0<=x<m and 0<=y<n and (x,y) not in visted and grid[x][y] == 1:
+                        grid[x][y] = 0
+                        q.append((x,y))
+                        visted.add(x,y)
 
+        result = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    flood(i,j)
+                    result += 1
+        return result
+
+s = Island()
+grid = [[0,1,0]]
+s.numIslands(grid)
