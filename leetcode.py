@@ -1,4 +1,4 @@
-class Solution(object):
+class TwoSum(object):
     def twoSum(self, nums, target):
         """
         :type nums: List[int]
@@ -216,7 +216,27 @@ class Island(object):
                     flood(i,j)
                     result += 1
         return result
+'''
+class OpenLock(object):
+    def openlock(self,deadends,target):
 
-s = Island()
-grid = [['0','1','0'],['0','1','0']]
-print(s.numIslands(grid))
+class MinSquare(object):
+    def numSquares(self,n):
+        x = int(pow(n,0.5))
+        for i in x:
+            find(i)
+        def find(x):
+            for i in range(x):
+'''
+
+class Brankets():
+    def isValid(self,s):
+        a = {')': '(', ']': '[', '}': '{'}
+        l = [None]
+        for i in s:
+            if i in a and a[i] == l[-1]:
+                l.pop()
+            else:
+                l.append(i)
+            print(l)
+        return len(l) == 1
