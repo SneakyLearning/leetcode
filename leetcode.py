@@ -216,6 +216,7 @@ class Island(object):
                     flood(i,j)
                     result += 1
         return result
+
 '''
 class OpenLock(object):
     def openlock(self,deadends,target):
@@ -240,3 +241,39 @@ class Brankets():
                 l.append(i)
             print(l)
         return len(l) == 1
+
+class EvalRPN(object):
+    def evalRPN(self, tokens):
+        """
+        :type tokens: List[str]
+        :rtype: int
+        """
+        stack = []
+        for i in tokens:
+            if i not in ['+','-','*','/']:
+                stack.append(int(i))
+            if i in ['+','-','*','/']:
+                if i == '+':
+                    a = stack[-1]+stack[-2]
+                    stack.pop()
+                    stack.pop()
+                    stack.append(a)
+                if i == '-':
+                    a = stack[-1]-stack[-2]
+                    stack.pop()
+                    stack.pop()
+                    stack.append(a)
+                if i == '*':
+                    a = stack[-1]*stack[-2]
+                    stack.pop()
+                    stack.pop()
+                    stack.append(a)
+                if i == '/':
+                    a = stack[-2]/stack[-1]
+                    stack.pop()
+                    stack.pop()
+                    stack.append(int(a))
+        return stack[0]
+
+sol = EvalRPN()
+print(sol.evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
