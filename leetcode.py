@@ -1,4 +1,4 @@
-class TwoSum(object):
+class Solution1(object):
     def twoSum(self, nums, target):
         """
         :type nums: List[int]
@@ -14,7 +14,7 @@ class TwoSum(object):
                     output.append(i1)
                     print(output)
 
-class MyCircularQueue(object):
+class Solution622(object):
 
     def __init__(self, k):
         """
@@ -96,7 +96,7 @@ class MyCircularQueue(object):
                 return False
         return True
 
-class MovingAverage(object):
+class Solution346(object):
 
     def __init__(self, size):
         """
@@ -119,7 +119,7 @@ class MovingAverage(object):
                 sum += i
         return sum/cut
 
-class WallAndGate(object):
+class Solution286(object):
     def wallsAndGates(self, rooms):
         """
         :type rooms: List[List[int]]
@@ -153,7 +153,7 @@ class WallAndGate(object):
         bfs(queue)
         return rooms
 
-class MinStack(object):
+class Solution155(object):
 
     def __init__(self):
         """
@@ -184,7 +184,7 @@ class MinStack(object):
         """
         return min(self.a)
 
-class Island(object):
+class Solution200(object):
     def numIslands(self,grid):
         from collections import deque
         if not grid or not grid[0]:
@@ -218,7 +218,7 @@ class Island(object):
         return result
 
 '''
-class OpenLock(object):
+class Solution752(object):
     def openlock(self,deadends,target):
 
 class MinSquare(object):
@@ -230,7 +230,7 @@ class MinSquare(object):
             for i in range(x):
 '''
 
-class Brankets():
+class Solution20():
     def isValid(self,s):
         a = {')': '(', ']': '[', '}': '{'}
         l = [None]
@@ -242,7 +242,7 @@ class Brankets():
             print(l)
         return len(l) == 1
 
-class EvalRPN(object):
+class Solution150(object):
     def evalRPN(self, tokens):
         """
         :type tokens: List[str]
@@ -275,7 +275,6 @@ class EvalRPN(object):
                     stack.append(int(a))
         return stack[0]
 
-
 class Solution739(object):
     def dailyTemperatures(self, T):
         """
@@ -283,19 +282,11 @@ class Solution739(object):
         :rtype: List[int]
         """
         results = [0] * len(T)
-        stack = [0]
-        for index, tep in enumerate(T[1:]):
-            index += 1
-            if tep > T[stack[0]]:
-                for i in stack[::-1]:
-                    if tep > T[i]:
-                        results[i] = index - i
-                        stack.pop()
-                stack.append(index)
-            else:
-                stack.append(index)
-
+        stack = []
+        for index,tep in enumerate(T):
+            while stack and tep>T[stack[-1]]:
+                results[stack[-1]] = index - stack[-1]
+                stack.pop()
+            stack.append(index)
         return results
 
-sol = Solution739()
-print(sol.dailyTemperatures([75, 71, 69, 72]))
