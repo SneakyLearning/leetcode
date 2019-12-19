@@ -275,5 +275,27 @@ class EvalRPN(object):
                     stack.append(int(a))
         return stack[0]
 
-sol = EvalRPN()
-print(sol.evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
+
+class Solution739(object):
+    def dailyTemperatures(self, T):
+        """
+        :type T: List[int]
+        :rtype: List[int]
+        """
+        results = [0] * len(T)
+        stack = [0]
+        for index, tep in enumerate(T[1:]):
+            index += 1
+            if tep > T[stack[0]]:
+                for i in stack[::-1]:
+                    if tep > T[i]:
+                        results[i] = index - i
+                        stack.pop()
+                stack.append(index)
+            else:
+                stack.append(index)
+
+        return results
+
+sol = Solution739()
+print(sol.dailyTemperatures([75, 71, 69, 72]))
