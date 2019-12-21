@@ -290,3 +290,31 @@ class Solution739(object):
             stack.append(index)
         return results
 
+class Solution2():
+    def addTwoNumbers(self,l1,l2):
+        jin = 0
+
+        head = ListNode(0)#返回的是头节点的next，而不是用于操作的p的next
+        p = head
+        while l1 and l2:
+            p.next = ListNode((l1.val + l2.val + jin) % 10)
+            jin = int((l1.val + l2.val + jin) / 10)
+            l1 = l1.next
+            l2 = l2.next
+            p = p.next
+
+        while l1:
+            p.next = ListNode((l1.val + jin) % 10)
+            jin = (l1.val + jin) // 10
+            l1 = l1.next
+            p = p.next
+
+        while l2:
+            p.next = ListNode((l2.val + jin) % 10)
+            jin = (l2.val + jin) // 10
+            l2 = l2.next
+            p = p.next
+
+        if jin == 1:
+            p.next = ListNode(1)
+        return head.next
