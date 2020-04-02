@@ -468,5 +468,112 @@ class Solution57():
                 i+=1
         return ans
 
-sol = Solution57()
-print(sol.findContinuousSequence(9))
+class Solution543():
+    def diameterOfBinaryTree(self, root):
+        ans = 1
+        def depth(node):
+            if not node:
+                return 0
+            L = depth(node.left)
+            R = depth(node.right)
+            ans = max(ans,L+R+1)
+            return max(L,R)+1
+        depth(root)
+        return ans-1
+
+class Solution206():
+    def reverse(self,head):
+        pre = None
+        cur = head
+        while cur:
+            tep = cur.next
+            cur.next = pre
+            pre = cur
+            cur = temp
+        return pre
+
+class Solution1013():
+    def canThreePartsEqualSum(self, A):
+        sums = int(sum(A) / 3)
+        if not sum(A) % 3 == 0:
+            return False
+        i = 1
+        a = A[0]
+
+        while not (a == sums) and i<len(A)-1:
+            a += A[i]
+            i += 1
+        j = -2
+        c = A[-1]
+        while not (c == sums) and j>-len(A):
+            c += A[j]
+            j -= 1
+        if not (i <=(j+len(A))):
+            return False
+        b=A[i]
+        while i<j+len(A):
+            i+=1
+            b+=A[i]
+        if b==sums:
+            return True
+        else:
+            return False
+
+class Solution1071():
+    def gcdOfStrings(self, str1, str2):
+        for i in range(min(len(str1),len(str2)),0,-1):
+            if len(str1)%i==0 and len(str2)%i==0:
+                if str1[:i]*(int(len(str1)/i))==str1 and str1[:i]*(int(len(str2)/i))==str2:
+                    return str1[:i]
+        return ''
+
+class Solution912():
+    def selection_sort(self,nums):
+        n=len(nums)
+        for i in range(n):
+            for j in range(i,n):
+                if nums[i] > nums[j]:
+                    nums[i],nums[j] = nums[j],nums[i]
+        return nums
+    def bubble_sort(self,nums):
+        n=len(nums)
+        for i in range(n):
+            for j in range(1,n-i):
+                if nums[j-1]>nums[j]:
+                    nums[j-1],nums[j]=nums[j],nums[j-1]
+        return nums
+    def insection_sort(self,nums):
+        pass
+    def shell_sort(self,nums):
+        pass
+    def merge_sort(self,nums):
+        pass
+    def quick_sort(self,nums):
+        n=len(nums)
+        def quick(left,right):
+            if left>=right:
+                return nums
+            pivot = left
+            i=left
+            j=right
+            while i<j:
+                while i<j and nums[j]>nums[pivot]:
+                    j-=1
+                while i<j and nums[i]<=nums[pivot]:
+                    i+=1
+                nums[i],nums[j]=nums[j],nums[i]
+            nums[pivot],nums[j]=nums[j],nums[pivot]
+            quick(left,j-1)
+            quick(j+1,right)
+            return nums
+        return quick(0,n-1)
+    def heap_sort(self,nums):
+        pass
+    def counting_sort(self,nums):
+        pass
+    def bucket_sort(self,nums):
+        pass
+    def radix_sort(self,nums):
+        pass
+sol = Solution912()
+print(sol.quick_sort([1,6,5]))
