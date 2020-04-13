@@ -575,5 +575,53 @@ class Solution912():
         pass
     def radix_sort(self,nums):
         pass
-sol = Solution912()
-print(sol.quick_sort([1,6,5]))
+
+class Solution5():
+    def longestPalindrome(self,str):
+        size = len(str)
+        max_pa = 1
+        start = 0
+        if size<2:
+            return str
+        dp = [[False for _ in range(size)] for _ in range(size)]
+        for i in range(size):
+            dp[i][i] = True
+        for j in range(1,size):
+            for i in range(0,j):
+                if str[i]==str[j]:
+                    if j-i<3:
+                        dp[i][j]=True
+                    else:dp[i][j]=dp[i+1][j-1]
+                else:
+                    dp[i][j]=False
+                if dp[i][j]==True:
+                    cur_pa = j-i+1
+                    if cur_pa>max_pa:
+                        max_pa = cur_pa
+                        start = i
+        return str[start:start+max_pa]
+    def mid_spread(self,s):
+        size = len(s)
+        if size<2:
+            return s
+        max_len = 1
+        res = s[0]
+        for i in range(size):
+            p_odd,len_odd = self.center_spread(s,size,i,i)
+            p_even,len_even = self.center_spread(s,size,i,i+1)
+            cur_p = p_odd if len_odd >= len_even else p_even
+            if len(cur_p)>max_len:
+                max_len = len(cur_p)
+                res = cur_p
+        return res
+
+    def center_spread(self,s,size,left,right):
+        i=left
+        j=right
+        while i>=0 and j<size and s[i]==s[j]:
+            i-=1
+            j+=1
+        return s[i+1:j],j-i+1
+
+sol = Solution5()
+print(sol.mid_spread(''))
