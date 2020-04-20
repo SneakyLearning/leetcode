@@ -348,7 +348,15 @@ class Solution9():
 
 class Solution14():
     def longestCommonPrefix(self,strs):
-        pre = []
+        if len(strs)==0:
+            return ''
+        while True:
+            n = len(pre)
+            for i in strs:
+                if i[:n] != pre:
+                    return pre[:-1]
+            pre = strs[0][:n+1]
+
 
 class Solution994():
     def orangesRotting(self,grid):
@@ -538,12 +546,27 @@ class Solution912():
     def bubble_sort(self,nums):
         n=len(nums)
         for i in range(n):
+            is_sort = True
             for j in range(1,n-i):
                 if nums[j-1]>nums[j]:
                     nums[j-1],nums[j]=nums[j],nums[j-1]
+                    is_sort = False
+            if is_sort:break
         return nums
     def insection_sort(self,nums):
-        pass
+        n = len(nums)
+        if n==1:
+            return nums
+        for i in range(1,n):
+            temp = nums[i]
+            for j in range(i-1,-1,-1):
+                if nums[j]>temp:
+                    nums[j+1] = nums[j]
+                else:
+                    break
+            nums[j] = temp
+            print(nums)
+        return nums
     def shell_sort(self,nums):
         pass
     def merge_sort(self,nums):
@@ -623,5 +646,166 @@ class Solution5():
             j+=1
         return s[i+1:j],j-i+1
 
-sol = Solution5()
-print(sol.mid_spread(''))
+class Solution3():
+    def lengthOfLongestSubstring(self, s):
+        max = 0
+        if not s:
+            return max
+        n=len(s)
+        lookup = set()
+        left=0
+        cur=0
+        for i in range(n):
+            cur+=1
+            while s[i] in lookup:
+                lookup.remove(s[left])
+                left+=1
+                cur-=1
+            if cur>max:max = cur
+            lookup.add(s[i])
+        return max
+    def hash_map(self,s):
+        if not s:
+            return 0
+        has = {}
+        n=len(s)
+        if n ==1:
+            return 1
+        max_len = 0
+        start = 0
+        for i in range(n):
+            if s[i] in has:
+                for key,value in has.items():
+                    if value<=has[s[i]]:
+                        has.pop(key)
+                start = min(has.values())
+            else:
+                has[s[i]]= i
+            print(has)
+            max_len = max(max_len,i-start+1)
+        return max_len
+
+class Solution221():
+    def maximalSquare(self, matrix):
+        if not matrix:
+            return 0
+        max_len = 0
+        x=len(matrix)
+        y=len(matrix[0])
+        if x==1 or y==1:
+            if '1' in matrix[0] or ['1'] in matrix:
+                return 1
+            else:return 0
+        dp = [[0 for i in range(y)] for i in range(x)]
+        for i in range(x):
+            if matrix[i][0]=='1':
+                dp[i][0]=1
+                max_len=1
+        for j in range(y):
+            if matrix[0][j]=='1':
+                dp[0][j]=1
+                max_len=1
+        for i in range(1,x):
+            for j in range(1,y):
+                if matrix[i][j] == '1':
+                    dp[i][j] = min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])+1
+                    max_len = max(max_len,dp[i][j])
+        return max_len**2
+
+class Solution21():
+    def mergeTwoLists(self, l1, l2):
+        if l1.next == None:
+            return l2
+        if l2.next == None:
+            return l1
+        if l1.val > l2.val:
+            l2.next = mergeTwoLists(l1,l2.next)
+            return l2
+        else:
+            l1.next = mergeTwoLists(l2,l1.next)
+            return l1
+
+class Solution121():
+    def maxProfit(self, prices):
+        if len(prices)<=1:
+            return 0
+        buy = -prices[0]
+        sell =0
+        for i in range(len(prices)):
+            buy = max(buy,-prices[buy])
+            sell = max(sell,buy+prices[i])
+        return sell
+
+class Solution122():
+    def maxProfit(self, prices):
+        if len(prices)<=1:
+            return 0
+        buy = -prices[0]
+        sell =0
+        for i in range(len(prices)):
+            buy = max(buy,sell-prices[i])
+            sell = max(sell,buy+prices[i])
+        return sell
+
+class Solution123():
+    def maxProfit(self, prices):
+        if len(prices)<=1:
+            return 0
+        fb = -prices[0]
+        fs = 0
+        sb = -prices[0]
+        ss = 0
+        for i in range(len(prices)):
+            fb = max(fb,-prices[i])
+            fs = max(fs,fb+prices[i])
+            sb = max(sb,fs-prices[i])
+            ss = max(ss,sb+prices[i])
+        return ss
+
+class Solution8():
+    def MyAtoi(self,str):
+        import re
+        number = re.search('-?\d+', str)
+        return number.group()
+
+class Solution13():
+    def romanToInt(self, s):
+        roman = {'M':1000,'D':500,'C':100,'L':50,'X':10,'V':5,'I':1}
+        n=len(s)
+        res = 0
+        for i in range(n-1):
+            if roman[s[i]]<roman[s[i+1]]:
+                res-=roman[s[i]]
+            else:res+=roman[s[i]]
+        res+=roman[s[-1]]
+        return res
+
+class Solution26():
+    def removeDuplicates(self, nums):
+        i = 0
+        for j in range(1, len(nums)):
+            if nums[i] != nums[j]:
+                i+=1
+                nums[i]=nums[j]
+        return i+1
+
+class Solution28():
+    def strStr(self, haystack,neddle):
+        n = len(haystack)
+        l=len(neddle)
+        for i in range(n-l+1):
+            if haystack[i:i+l]==neddle:
+                return i
+        return -1
+
+class Solution66():
+    def plusOne(self, digits):
+        number = str(int(''.join(map(str,digits))) + 1)
+        res = []
+        for i in number:
+            res.append(int(i))
+        return res
+
+
+sol = Solution66()
+print(sol.plusOne([1,2,3]))
