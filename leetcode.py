@@ -570,7 +570,35 @@ class Solution912():
     def shell_sort(self,nums):
         pass
     def merge_sort(self,nums):
-        pass
+        temp = [None]*len(nums)
+
+        def sort(nums,temp,start,end):
+            if start<end:
+                mid = start+int((end-start)/2)
+                sort(nums,temp,start,mid)
+                sort(nums,temp,mid+1,start)
+                merge(nums,temp,start,mid,end)
+        def merge(nums,temp,start,mid,end):
+            for i in range(start,end+1):
+                temp[i]=nums[i]
+            left = start
+            right = mid+1
+            for k in range(start,end+1):
+                if left<mid:
+                    nums[k]=temp[right]
+                    right+=1
+                elif mid>right:
+                    nums[k]=temp[left]
+                    left+=1
+                elif temp[right]<temp[left]:
+                    nums[k]=temp[right]
+                    right+=1
+                else:
+                    nums[k]=temp[left]
+                    left+=1
+
+        sort(nums, temp, 0, len(nums) - 1)
+        print(nums)
     def quick_sort(self,nums):
         n=len(nums)
         def quick(left,right):
@@ -806,6 +834,202 @@ class Solution66():
             res.append(int(i))
         return res
 
+class Solution69():
+    def mySqrt(self, x):
+        if x==0:
+            return 0
+        start=1
+        end = x//2
+        while start<end:
+            mid = start+((end-start+1)>>1)
+            square = mid*mid
+            if square>x:
+                end = mid-1
+            else:start=mid
+        return start
 
-sol = Solution66()
-print(sol.plusOne([1,2,3]))
+class Solution70():
+    def climbStairs(self, n):
+        dp = [1, 2]
+        if n - 1 < 2:
+            return dp[n - 1]
+        else:
+            for i in range(2, n):
+                dp.append(dp[i-2] + dp[i - 1])
+            return dp[n - 1]
+
+class Solution88():
+    def merge(self, nums1,m,nums2,n):
+        p1 = 0
+        p2 = 0
+        nums1_copy = nums1[:m]
+        while p2 < n and p1 < m:
+            if nums1_copy[p1] < nums2[p2]:
+                nums1[p1 + p2] = (nums1_copy[p1])
+                p1 += 1
+            else:
+                nums1[p1 + p2] = (nums2[p2])
+                p2 += 1
+        print(nums1)
+        if p1 < m:
+            nums1[p1 + p2:m + n] = nums1_copy[p1:]
+        if p2 < n:
+            nums1[p1 + p2:m + n] = nums2[p2:]
+        return nums1
+
+class Solution104():
+    def maxDepth(self, root):
+        if not root:
+            return 0
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return max(left,right)+1
+    def maxDepth_DFS(self,root):
+        if not root:
+            return 0
+        stack=[]
+        depth=0
+        stack.append((1,root))
+        while stack:
+            cur,root = stack.pop()
+            if root:
+                depth = max(cur,depth)
+                stack.append((cur+1,root.left))
+                stack.append((cur + 1, root.right))
+        return depth
+
+class Solution108():
+    def sortedArrayToBST(self, nums):
+        def helper(self,left,right):
+            if left > right:
+                return None
+            p = (left+right)//2
+            root = TreeNode(nums[p])
+            root.left = helper(left,p-1)
+            root.right = helper(p+1,right)
+            return root
+        return helper(0,len(nums)-1)
+
+class Solution125():
+    def isPalindrome(self, s):
+        import re
+        p = ''.join(re.findall('[\dA-Za-z]',s))
+        print(p.lower())
+
+class Solution141():
+    def hasCycle(self, head):
+        d = {}
+        while head:
+            if head in d:
+                return True
+            else:
+                d[head] = 1
+            head=head.next
+        return False
+    def hasCycle_p(self,head):
+        if not head or not head.next:
+            return False
+        slow = head.next
+        fast = head.next.next
+        while slow != fast:
+            if not fast or not fast.next:
+                return False
+            slow=slow.next
+            fast=fast.next.next
+        return True
+
+class Solution160():
+    def getIntersectionNode(self,headA,headB):
+        curA,curB=headA,headB
+        while curA!=curB:
+            curA = curA.next if curA else headB
+            curB = curB.next if curB else headA
+        return curA
+
+class Solution169():
+    def majorityElement(self, nums):
+        d = {}
+        for i in nums:
+            d[i] = d.get(i, 1) + 1
+        return max(d,key=d.get)
+
+class Solution171():
+    def titleToNumber(self, s):
+        res = 0
+        for j,i in enumerate(s[::-1]):
+            res+=(ord(i)-64)*26**j
+        return res
+
+class Solution172():
+    def trailingZeroes(self, n):
+        res = 0
+        while n>=5:
+            n=int(n/5)
+            res+=n
+        return res
+class Solution189():
+    def rotate(self, nums):
+        pass
+
+class Solution387():
+    def firstUniqChar(self, s):
+        from collections import Counter
+        d = (Counter(s))
+        for index,i in enumerate(s):
+            if d[i]==1:
+                return index
+
+class Solution283():
+    def moveZeroes(self, nums) :
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        b = 0
+        n = len(nums)
+        for a in range(n):
+            if b + 1 == n:
+                break
+            b += 1
+            if nums[a] == 0:
+                while nums[b] == 0 and b < n - 1:
+                    b += 1
+                nums[a], nums[b] = nums[b], nums[a]
+
+class Solution268():
+    #hash_set,XOR,MAth2
+    pass
+
+class Solution204():
+    def countPrimes(self, n):
+        import math
+        if n<3:return 0
+        num =0
+        for i in range(2,n):
+            if i==2:
+                num=1
+                continue
+            for j in range(2,int(math.sqrt(i))+1):
+                if i%j==0:
+                    break
+            else:
+                print(i)
+                num+=1
+        return num
+
+class Solution350():
+    def intersect(self, nums1, nums2):
+        if len(nums1) > len(nums2):
+            return self.intersect(nums2, nums1)
+        hash = {}
+        res = []
+        for i in nums1:
+            hash[i] = hash.get(i, 0)+1
+            print(hash)
+        for i in nums2:
+            if i in hash and hash[i] > 0:
+                res.append(i)
+                hash[i] -= 1
+            #print(hash)
+        return res
+sol = Solution912()
+print(sol.merge_sort([4,9,5]))
